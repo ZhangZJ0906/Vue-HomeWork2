@@ -60,14 +60,14 @@
   </div>
 
   <!-- todolist -->
-  <!--  
+
   <div class="container" v-if="aa">
     <div class="row">
       <div class="col-md-12">
         <h1>TODOLIST</h1>
       </div>
     </div>
-  </div> -->
+  </div>
 </template>
 
 <script setup>
@@ -80,6 +80,7 @@ const email2 = ref('');
 const Password2 = ref('');
 const token = ref('');
 const checktoken = ref('');
+const aa = ref(false);
 const apiUrl = 'https://todolist-api.hexschool.io';
 console.table({
   account: "aaa1@gamil.com",
@@ -93,8 +94,12 @@ const signup = async () => {
       password: Password1.value,
       nickname: nickname.value
     });
-    console.table(res);
+
     alert("註冊成功");
+    email1.value = '';
+    Password1.value = '';
+    nickname.value = '';
+
   } catch (error) {
     console.log(error);
     alert("註冊失敗");
@@ -109,6 +114,9 @@ const signin = async () => {
     });
     alert("登入成功");
     token.value = res.data.token;
+    email2.value = '';
+    Password2.value = '';
+    aa.value = true;
     // console.table(res.data.token);
   } catch (error) {
     console.log(error);
@@ -133,15 +141,14 @@ const check = async () => {
 
 const signout = async () => {
   try {
-    console.log(token.value,apiUrl);
-    const res = await axios.post(`${apiUrl}/users/sign_out`, {
+    const res = await axios.post(`${apiUrl}/users/sign_out`, {}, {
       headers: {
-        Authorization : token.value
+        Authorization: token.value
       }
     });
-    
-    
     alert("登出成功");
+    token.value = '';
+    aa.value = false;
   } catch (error) {
     console.log(error);
     alert("登出失敗: " + error);
@@ -149,10 +156,7 @@ const signout = async () => {
 
 }
 
-// const showTodoList = (aaa) => {
-//   return aaa;
-// }
-// const aa = showTodoList(false);
+
 
 
 
